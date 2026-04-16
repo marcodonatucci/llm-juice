@@ -1,36 +1,198 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Tokenomics
 
-## Getting Started
+Tokenomics is a polished **AI FinOps + GreenOps simulator** for LLM prompts.
 
-First, run the development server:
+Paste a prompt, choose a model from the live catalog, and the app estimates:
+
+- input tokens
+- likely completion ranges (`p50` and `p90`)
+- per-request cost
+- rough energy, CO2e, and water footprint
+- throughput and intelligence benchmarks when available
+- monthly scaling scenarios for budgeting and planning
+
+It is designed for founders, operators, researchers, and AI teams who want a clearer answer to a simple question:
+
+**What does one model request cost us financially and environmentally?**
+
+## What the app does
+
+Tokenomics is not a passive dashboard. It is an interactive planning tool with a clean report flow:
+
+- **Prompt analyzer**: estimates token counts and likely completion size from the prompt itself
+- **Live model catalog**: loads models, context windows, and pricing from OpenRouter
+- **Cost simulator**: computes input, output, and total request cost for typical and higher-output cases
+- **GreenOps estimator**: approximates electricity use, CO2e, and water footprint from inferred model class and regional assumptions
+- **Benchmark view**: shows throughput, latency, and intelligence data from Artificial Analysis when configured
+- **Compare mode**: lets you contrast the selected model with another model for the same prompt
+- **Forecasting slider**: scales one request into monthly demand scenarios
+- **Export card**: captures a presentation-friendly report image for decks and case studies
+- **Learning hub**: ships with a long-form educational guide on FinOps, GreenOps, water, GPUs, routing, and forecasting
+
+## Product framing
+
+The app is a **simulation layer**, not a billing or telemetry product.
+
+That means it is intentionally fast and explorable, but it does not use:
+
+- provider-side true token usage logs
+- live GPU telemetry
+- real-time inference geography
+- production trace calibration
+
+Instead, it gives teams a transparent, auditable estimate they can use for:
+
+- early pricing decisions
+- architecture trade-off discussions
+- stakeholder education
+- sustainability storytelling
+- rough budgeting before production instrumentation exists
+
+## Data sources
+
+### Pricing and model metadata
+
+Live model IDs, context windows, and per-token USD pricing are loaded from the public OpenRouter API.
+
+- Route: [`src/app/api/models/route.ts`](src/app/api/models/route.ts)
+- Upstream: `GET https://openrouter.ai/api/v1/models`
+- Cost logic: [`src/lib/finops/pricing.ts`](src/lib/finops/pricing.ts)
+
+If OpenRouter is unavailable, the app falls back to a small embedded pricing map so the interface remains usable.
+
+### Performance benchmarks
+
+Optional performance metrics come from Artificial Analysis.
+
+- Route: [`src/app/api/benchmarks/route.ts`](src/app/api/benchmarks/route.ts)
+- Upstream: `GET https://artificialanalysis.ai/api/v2/data/llms/models`
+
+When configured, the app currently uses:
+
+- intelligence index
+- median output tokens per second
+- median time to first token
+
+If the API key is missing, the benchmark panel gracefully degrades and the rest of the product still works.
+
+### Simulation methodology
+
+The detailed logic, formulas, assumptions, and approximation notes are documented in:
+
+- [`SIMULATION_METHODOLOGY.md`](SIMULATION_METHODOLOGY.md)
+
+That file explains token counting, output estimation, pricing math, emissions logic, water approximations, and monthly forecasting assumptions in audit-friendly language.
+
+## Stack
+
+- **Next.js 16**
+- **React 19**
+- **TypeScript**
+- **Tailwind CSS 4**
+- **shadcn/ui**
+- **js-tiktoken**
+- **@tgwf/co2**
+
+## Local development
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Start the app:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Then open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Quality checks:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run lint
+npm run build
+```
 
-## Learn More
+## Environment variables
 
-To learn more about Next.js, take a look at the following resources:
+Create a `.env.local` file for local development.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+ARTIFICIAL_ANALYSIS_API_KEY=your_key_here
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Notes:
 
-## Deploy on Vercel
+- `ARTIFICIAL_ANALYSIS_API_KEY` is optional. Without it, benchmark cards show no external performance data.
+- `NEXT_PUBLIC_SITE_URL` is recommended for production metadata. On Vercel, `VERCEL_URL` is used as a fallback.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Deploying to Vercel
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project is a good fit for Vercel because it is a Next.js app with lightweight server routes.
+
+Recommended production environment variables:
+
+- `ARTIFICIAL_ANALYSIS_API_KEY`
+- `NEXT_PUBLIC_SITE_URL`
+
+Typical deploy flow:
+
+```bash
+npx vercel
+```
+
+For production:
+
+```bash
+npx vercel --prod
+```
+
+After deployment, set:
+
+- `NEXT_PUBLIC_SITE_URL=https://your-project-name.vercel.app`
+
+## Project structure
+
+```text
+src/
+  app/
+    api/
+      benchmarks/
+      models/
+    learn/
+  components/
+    dashboard/
+  lib/
+    benchmarks/
+    finops/
+    greenops/
+    metrics/
+```
+
+High-signal files:
+
+- [`src/app/page.tsx`](src/app/page.tsx): landing page composition
+- [`src/app/TokenomicsContext.tsx`](src/app/TokenomicsContext.tsx): orchestration for prompt analysis state
+- [`src/lib/finops/estimate-output.ts`](src/lib/finops/estimate-output.ts): output-length estimation heuristics
+- [`src/lib/finops/pricing.ts`](src/lib/finops/pricing.ts): pricing normalization and request cost math
+- [`src/lib/greenops/emissions.ts`](src/lib/greenops/emissions.ts): environmental estimation logic
+- [`src/components/dashboard/MetricsDashboard.tsx`](src/components/dashboard/MetricsDashboard.tsx): main analysis report
+
+## Why this exists
+
+Most AI cost tooling explains dollars.
+
+Most sustainability discussion explains emissions at a very high level.
+
+Very little productized software makes both visible at the same time, in a way that is:
+
+- understandable to non-specialists
+- useful in architecture conversations
+- grounded enough to be auditable
+- visually strong enough to share
+
+Tokenomics aims to sit in that gap.
