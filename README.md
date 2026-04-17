@@ -1,6 +1,6 @@
-# Tokenomics
+# LLM Juice
 
-Tokenomics is a polished **AI FinOps + GreenOps simulator** for LLM prompts.
+LLM Juice is a polished **AI FinOps + GreenOps simulator** for LLM prompts.
 
 Paste a prompt, choose a model from the live catalog, and the app estimates:
 
@@ -17,7 +17,7 @@ It is designed for founders, operators, researchers, and AI teams who want a cle
 
 ## What the app does
 
-Tokenomics is not a passive dashboard. It is an interactive planning tool with a clean report flow:
+LLM Juice is not a passive dashboard. It is an interactive planning tool with a clean report flow:
 
 - **Prompt analyzer**: estimates token counts and likely completion size from the prompt itself
 - **Live model catalog**: loads models, context windows, and pricing from OpenRouter
@@ -195,4 +195,4 @@ Very little productized software makes both visible at the same time, in a way t
 - grounded enough to be auditable
 - visually strong enough to share
 
-Tokenomics aims to sit in that gap.
+LLM Juice aims to sit in that gap.
