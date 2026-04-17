@@ -1,6 +1,6 @@
 "use client";
 
-import { useTokenomics } from "@/app/TokenomicsContext";
+import { useLLMJuice } from "@/app/LLMJuiceContext";
 import { Badge } from "@/components/ui/badge";
 import {
   Leaf,
@@ -22,7 +22,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { compareToneWrapper } from "@/lib/metrics/compare-style";
 
 export function MetricsDashboard() {
-  const { state } = useTokenomics();
+  const { state } = useLLMJuice();
 
   if (state.inputTokens === 0 && !state.reportLoading) return null;
 

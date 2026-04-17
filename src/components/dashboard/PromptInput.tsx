@@ -1,6 +1,6 @@
 "use client";
 
-import { countInputTokens, useTokenomics } from "@/app/TokenomicsContext";
+import { countInputTokens, useLLMJuice } from "@/app/LLMJuiceContext";
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -26,7 +26,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 export function PromptInput() {
   const { state, setSelectedModel, commitPromptAnalysis, fetchInitialData, isDataLoaded } =
-    useTokenomics();
+    useLLMJuice();
   const formRef = useRef<HTMLFormElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [open, setOpen] = useState(false);

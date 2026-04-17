@@ -1,6 +1,6 @@
 "use client";
 
-import { useTokenomics } from "@/app/TokenomicsContext";
+import { useLLMJuice } from "@/app/LLMJuiceContext";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Slider } from "@/components/ui/slider";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -8,7 +8,7 @@ import { useState } from "react";
 import { Layers } from "lucide-react";
 
 export function ForecastingSlider() {
-  const { state } = useTokenomics();
+  const { state } = useLLMJuice();
   const [multiplier, setMultiplier] = useState(1000);
 
   if (state.inputTokens === 0 || !state.footprintP50) return null;

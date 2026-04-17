@@ -41,7 +41,7 @@ export type ComparisonSnapshot = {
   footprintP90: EcoFootprint;
 };
 
-export interface TokenomicsState {
+export interface LLMJuiceState {
   promptText: string;
   selectedModel: string;
   inputTokens: number;
@@ -69,7 +69,7 @@ export interface TokenomicsState {
 }
 
 type MetricsSlice = Pick<
-  TokenomicsState,
+  LLMJuiceState,
   | "promptText"
   | "selectedModel"
   | "inputTokens"
@@ -147,7 +147,7 @@ function buildComparisonSnapshot(
 }
 
 /** Merge primary metrics slice and refresh or drop comparison. */
-function applyPrimaryMetrics(prev: TokenomicsState, slice: MetricsSlice): TokenomicsState {
+function applyPrimaryMetrics(prev: LLMJuiceState, slice: MetricsSlice): LLMJuiceState {
   if (slice.inputTokens === 0) {
     return { ...prev, ...slice, comparison: null };
   }
@@ -169,8 +169,8 @@ function applyPrimaryMetrics(prev: TokenomicsState, slice: MetricsSlice): Tokeno
 
 const MIN_REPORT_SKELETON_MS = 420;
 
-interface TokenomicsContextType {
-  state: TokenomicsState;
+interface LLMJuiceContextType {
+  state: LLMJuiceState;
   setPromptText: (text: string) => void;
   setSelectedModel: (model: string) => void;
   commitPromptAnalysis: (text: string) => void;
@@ -179,13 +179,13 @@ interface TokenomicsContextType {
   isDataLoaded: boolean;
 }
 
-const TokenomicsContext = createContext<TokenomicsContextType | undefined>(undefined);
+const LLMJuiceContext = createContext<LLMJuiceContextType | undefined>(undefined);
 
 const DEFAULT_MODEL = "openai/gpt-4o";
 
-export const TokenomicsProvider = ({ children }: { children: ReactNode }) => {
+export const LLMJuiceProvider = ({ children }: { children: ReactNode }) => {
   const [isDataLoaded, setIsDataLoaded] = useState(false);
-  const [state, setState] = useState<TokenomicsState>({
+  const [state, setState] = useState<LLMJuiceState>({
     promptText: "",
     selectedModel: DEFAULT_MODEL,
     inputTokens: 0,
@@ -339,7 +339,7 @@ export const TokenomicsProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   return (
-    <TokenomicsContext.Provider
+    <LLMJuiceContext.Provider
       value={{
         state,
         setPromptText,
@@ -351,12 +351,12 @@ export const TokenomicsProvider = ({ children }: { children: ReactNode }) => {
       }}
     >
       {children}
-    </TokenomicsContext.Provider>
+    </LLMJuiceContext.Provider>
   );
 };
 
-export const useTokenomics = () => {
-  const context = useContext(TokenomicsContext);
-  if (!context) throw new Error("useTokenomics must be used within a TokenomicsProvider");
+export const useLLMJuice = () => {
+  const context = useContext(LLMJuiceContext);
+  if (!context) throw new Error("useLLMJuice must be used within a LLMJuiceProvider");
   return context;
 };

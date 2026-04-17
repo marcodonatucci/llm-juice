@@ -1,13 +1,13 @@
 "use client";
 
-import { useTokenomics } from "@/app/TokenomicsContext";
+import { useLLMJuice } from "@/app/LLMJuiceContext";
 import { Button } from "@/components/ui/button";
 import { domToPng } from "modern-screenshot";
 import { Download } from "lucide-react";
 import { useState } from "react";
 
 export function ExportCard() {
-  const { state } = useTokenomics();
+  const { state } = useLLMJuice();
   const [isExporting, setIsExporting] = useState(false);
 
   if (state.inputTokens === 0) return null;

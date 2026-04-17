@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { TokenomicsProvider } from "./TokenomicsContext";
+import { LLMJuiceProvider } from "./LLMJuiceContext";
 import Link from "next/link";
 import { BrandTitle } from "@/components/BrandTitle";
 import { getSiteUrl } from "@/lib/site-url";
@@ -59,7 +59,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.className} h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-background text-foreground dark:bg-zinc-950 dark:text-zinc-50">
-        <TokenomicsProvider>
+        <LLMJuiceProvider>
           <TooltipProvider>
             
             {/* Header */}
@@ -112,7 +112,7 @@ export default function RootLayout({
             </footer>
 
           </TooltipProvider>
-        </TokenomicsProvider>
+        </LLMJuiceProvider>
       </body>
     </html>
   );

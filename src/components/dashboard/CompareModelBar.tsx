@@ -1,6 +1,6 @@
 "use client";
 
-import { useTokenomics } from "@/app/TokenomicsContext";
+import { useLLMJuice } from "@/app/LLMJuiceContext";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Command,
@@ -20,7 +20,7 @@ import { ChevronsUpDown, Plus, X } from "lucide-react";
 import { useState } from "react";
 
 export function CompareModelBar() {
-  const { state, setComparisonModel } = useTokenomics();
+  const { state, setComparisonModel } = useLLMJuice();
   const [open, setOpen] = useState(false);
 
   const list = state.modelsList ?? [];

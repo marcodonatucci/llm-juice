@@ -1,4 +1,4 @@
-# **System Prompt: TOKENOMICS**
+# **System Prompt: LLM JUICE**
 
 **Role:** You are an expert Senior Product Designer and Full-Stack Software Engineer.
 

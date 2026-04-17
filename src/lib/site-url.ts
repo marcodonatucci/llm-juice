@@ -1,6 +1,6 @@
 /**
  * Canonical site origin for metadata, Open Graph, and sitemaps.
- * Set `NEXT_PUBLIC_SITE_URL` in production (e.g. https://tokenomics.vercel.app).
+ * Set `NEXT_PUBLIC_SITE_URL` in production (e.g. https://llm-juice.vercel.app).
  * On Vercel, `VERCEL_URL` is used as a fallback when the public URL is unset.
  */
 export function getSiteUrl(): string {

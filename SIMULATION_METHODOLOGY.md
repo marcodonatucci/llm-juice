@@ -8,7 +8,7 @@ Goal: make every assumption auditable, so you can replace weak approximations wi
 
 ## 1) Scope and Architecture
 
-Main orchestration is in `src/app/TokenomicsContext.tsx`:
+Main orchestration is in `src/app/LLMJuiceContext.tsx`:
 
 1. Count input tokens from prompt text.
 2. Estimate output token uncertainty (`p50`, `p90`).
@@ -27,7 +27,7 @@ The app is a **planning simulator**, not a metering tool:
 
 ## 2) Token Counting
 
-**File:** `src/app/TokenomicsContext.tsx` (`countInputTokens`)
+**File:** `src/app/LLMJuiceContext.tsx` (`countInputTokens`)
 
 ### Formula
 
@@ -313,7 +313,7 @@ OpenRouter model IDs are matched to benchmark rows by:
 
 ## 9) UX/State Decisions that Affect Simulation Perception
 
-**File:** `src/app/TokenomicsContext.tsx`
+**File:** `src/app/LLMJuiceContext.tsx`
 
 - Analysis only updates on submit (`Enter`/send), not every keystroke.
 - A minimum skeleton/loading duration (`420 ms`) is enforced for smooth visual feedback.

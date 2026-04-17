@@ -176,7 +176,7 @@ src/
 High-signal files:
 
 - [`src/app/page.tsx`](src/app/page.tsx): landing page composition
-- [`src/app/TokenomicsContext.tsx`](src/app/TokenomicsContext.tsx): orchestration for prompt analysis state
+- [`src/app/LLMJuiceContext.tsx`](src/app/LLMJuiceContext.tsx): orchestration for prompt analysis state
 - [`src/lib/finops/estimate-output.ts`](src/lib/finops/estimate-output.ts): output-length estimation heuristics
 - [`src/lib/finops/pricing.ts`](src/lib/finops/pricing.ts): pricing normalization and request cost math
 - [`src/lib/greenops/emissions.ts`](src/lib/greenops/emissions.ts): environmental estimation logic
